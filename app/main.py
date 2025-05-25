@@ -2,10 +2,20 @@ from flask import Flask, request, jsonify
 from flask import render_template, redirect, url_for
 from models import db, Person, Course, Teacher, Student
 import config as config
+import os
+from sherpa.utils.basics import Logger
 
 app = Flask(__name__)
+log_level = os.environ.get("LOG_LEVEL", "")
+logger = Logger("python-flask", log_level=log_level, log_path="/tmp/python-flask.log")
+logger.info("Logger initialized with level: {}.", log_level)
 app.config.from_object(config)
 db.init_app(app)
+
+@app.route('/health', methods=["GET"])
+def getHealth():
+    logger.trace("Health endpoint called.")
+    return 'OK'
 
 @app.route("/")
 def home():
