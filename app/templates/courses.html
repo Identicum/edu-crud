@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Courses</h2>
+<form method="post">
+    <input name="course_name" placeholder="Course Name" required>
+    <button type="submit">Add</button>
+</form>
+
+<table>
+    <tr><th>ID</th><th>Name</th><th>Actions</th></tr>
+    {% for c in courses %}
+    <tr>
+        <td>{{ c.course_id }}</td>
+        <td>{{ c.course_name }}</td>
+        <td>
+            <form action="/courses/{{ c.course_id }}/delete" method="post">
+                <button type="submit">Delete</button>
+            </form>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock %}

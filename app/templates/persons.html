@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Persons</h2>
+<form method="post">
+    <input name="first_name" placeholder="First Name" required>
+    <input name="last_name" placeholder="Last Name" required>
+    <input name="id_number" placeholder="National ID" required>
+    <input name="dob" type="date" placeholder="Date of Birth">
+    <input name="personal_email" placeholder="Personal email">
+    <button type="submit">Add</button>
+</form>
+
+<table>
+    <tr>
+        <th>ID</th>
+        <th>First Name</th>
+        <th>Last Name</th>
+        <th>National ID</th>
+        <th>DOB</th>
+        <th>Username</th>
+        <th>Personal email</th>
+        <th>Org email</th>
+    </tr>
+    {% for p in persons %}
+    <tr>
+        <td>{{ p.person_id }}</td>
+        <td>{{ p.first_name }}</td>
+        <td>{{ p.last_name }}</td>
+        <td>{{ p.id_number }}</td>
+        <td>{{ p.dob }}</td>
+        <td>{{ p.username }}</td>
+        <td>{{ p.personal_email }}</td>
+        <td>{{ p.org_email }}</td>
+        <td>
+            <form action="/persons/{{ p.person_id }}/delete" method="post">
+                <button type="submit">Delete</button>
+            </form>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock %}

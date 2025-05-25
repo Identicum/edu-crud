@@ -1,0 +1,32 @@
+services:
+  db:
+    container_name: db
+    image: ghcr.io/identicum/postgres:16
+    pull_policy: always
+    restart: always
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_PASSWORD: edu_postgres
+    volumes:
+      - ./initdb/:/docker-entrypoint-initdb.d/:ro
+
+  edu-crud:
+    container_name: edu-crud
+    image: ghcr.io/identicum/edu-crud:latest
+    restart: always
+    # pull_policy: always
+    ports:
+      - 80:5000
+    environment:
+      - LOG_LEVEL=TRACE
+      - DB_USER=eduusr
+      - DB_PASSWORD=edupwd
+      - DB_NAME=edudb
+      - DB_HOST=db
+      - DB_PORT=5432
+    volumes:
+      - ./app/:/app/
+    depends_on:
+      db:
+        condition: service_healthy
