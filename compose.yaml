@@ -15,7 +15,7 @@ services:
     container_name: edu-crud
     image: ghcr.io/identicum/edu-crud:latest
     restart: always
-    # pull_policy: always
+    pull_policy: always
     ports:
       - 80:5000
     environment:
