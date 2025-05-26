@@ -48,6 +48,7 @@ CREATE TABLE person (
         org_email            VARCHAR(100),
         modification_time    TIMESTAMP WITHOUT TIME ZONE DEFAULT CURRENT_TIMESTAMP
 );
+ALTER TABLE person ADD CONSTRAINT UQ_person_id_number UNIQUE (id_number);
 CREATE TRIGGER person_upd BEFORE UPDATE ON person FOR EACH ROW EXECUTE PROCEDURE set_timestamp();
 
 CREATE TABLE course (
@@ -55,6 +56,7 @@ CREATE TABLE course (
         course_name          VARCHAR(50) NOT NULL,
         modification_time    TIMESTAMP WITHOUT TIME ZONE DEFAULT CURRENT_TIMESTAMP
 );
+ALTER TABLE course ADD CONSTRAINT UQ_course_name UNIQUE (course_name);
 CREATE TRIGGER course_upd BEFORE UPDATE ON course FOR EACH ROW EXECUTE PROCEDURE set_timestamp();
 
 CREATE TABLE teacher (
@@ -82,8 +84,6 @@ CREATE TABLE student (
     FOREIGN KEY (course_id) REFERENCES course(course_id) ON DELETE CASCADE
 );
 CREATE TRIGGER student_upd BEFORE UPDATE ON student FOR EACH ROW EXECUTE PROCEDURE set_timestamp();
-
--- ToDo: add unique constrains
 
 -- --------------------------------------------------------------
 -- VIEWS
