@@ -1,57 +1,72 @@
 {% extends 'base.html' %}
 {% block content %}
 <h2>Students</h2>
-<form method="post">
-    <label for="person_id">Person:</label>
-    <select name="person_id" required>
-        {% for p in persons %}
-        <option value="{{ p.person_id }}">{{ p.first_name }} {{ p.last_name }} (ID: {{ p.person_id }})</option>
+
+<button onclick="showForm()">+ Add New Student Assignment</button>
+
+<div id="list-view">
+    <table border="1" cellpadding="5" cellspacing="0">
+        <tr>
+            <th>ID</th>
+            <th>Person</th>
+            <th>Course</th>
+            <th>Position Type</th>
+            <th>Start Date</th>
+            <th>End Date</th>
+            <th>Actions</th>
+        </tr>
+        {% for s, p, c in students %}
+        <tr>
+            <td>{{ s.student_id }}</td>
+            <td>{{ p.first_name }} {{ p.last_name }}</td>
+            <td>{{ c.course_name }}</td>
+            <td>{{ s.position_type }}</td>
+            <td>{{ s.start_date }}</td>
+            <td>{{ s.end_date }}</td>
+            <td>
+                <form action="/students/{{ s.student_id }}/delete" method="post">
+                    <button type="submit">Delete</button>
+                </form>
+            </td>
+        </tr>
         {% endfor %}
-    </select>
+    </table>
+</div>
 
-    <label for="course_id">Course ID:</label>
-    <select name="course_id" required>
-        {% for c in courses %}
-        <option value="{{ c.course_id }}">{{ c.course_name }} (ID: {{ c.course_id }})</option>
-        {% endfor %}
-    </select>
+<div id="form-view" style="display: none; margin-top: 2rem;">
+    <h3>Add New Student Assignment</h3>
+    <form method="post">
+        <label for="person_id">Person:</label><br>
+        <select name="person_id" required>
+            {% for p in persons %}
+            <option value="{{ p.person_id }}">{{ p.first_name }} {{ p.last_name }} (ID: {{ p.person_id }})</option>
+            {% endfor %}
+        </select><br><br>
 
-    <select name="position_type">
-        <option value="REGULAR">REGULAR</option>
-        <option value="ALUMNI">ALUMNI</option>
-        <option value="EXCHANGE">EXCHANGE</option>
-    </select>
+        <label for="course_id">Course:</label><br>
+        <select name="course_id" required>
+            {% for c in courses %}
+            <option value="{{ c.course_id }}">{{ c.course_name }} (ID: {{ c.course_id }})</option>
+            {% endfor %}
+        </select><br><br>
 
-    <input name="start_date" type="date">
-    <input name="end_date" type="date">
+        <label for="position_type">Position Type:</label><br>
+        <select name="position_type">
+            <option value="REGULAR">REGULAR</option>
+            <option value="ALUMNI">ALUMNI</option>
+            <option value="EXCHANGE">EXCHANGE</option>
+        </select><br><br>
 
-    <button type="submit">Add</button>
-</form>
+        <label for="start_date">Start Date:</label><br>
+        <input name="start_date" type="date"><br><br>
 
-<table>
-    <tr>
-        <th>ID</th>
-        <th>Person</th>
-        <th>Course</th>
-        <th>Position Type</th>
-        <th>Start Date</th>
-        <th>End Date</th>
-        <th>Actions</th>
-    </tr>
-    {% for s, p, c in students %}
-    <tr>
-        <td>{{ s.student_id }}</td>
-        <td>{{ p.first_name }} {{ p.last_name }}</td>
-        <td>{{ c.course_name }}</td>
-        <td>{{ s.position_type }}</td>
-        <td>{{ s.start_date }}</td>
-        <td>{{ s.end_date }}</td>
-        <td>
-            <form action="/students/{{ s.student_id }}/delete" method="post">
-                <button type="submit">Delete</button>
-            </form>
-        </td>
-    </tr>
-    {% endfor %}
-</table>
+        <label for="end_date">End Date:</label><br>
+        <input name="end_date" type="date"><br><br>
+
+        <button type="submit">Submit</button>
+        <button type="button" onclick="showList()">Cancel</button>
+    </form>
+</div>
+
+<script src="{{ url_for('static', filename='js/toggleViews.js') }}"></script>
 {% endblock %}

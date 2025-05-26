@@ -1,57 +1,68 @@
 {% extends 'base.html' %}
 {% block content %}
 <h2>Teachers</h2>
-<form method="post">
-    <label for="person_id">Person:</label>
-    <select name="person_id" required>
-        {% for p in persons %}
-        <option value="{{ p.person_id }}">{{ p.first_name }} {{ p.last_name }} (ID: {{ p.person_id }})</option>
+
+<button onclick="showForm()">+ Add New Teacher Assignment</button>
+
+<div id="list-view">
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>Person</th>
+            <th>Course</th>
+            <th>Position Type</th>
+            <th>Start Date</th>
+            <th>End Date</th>
+            <th>Actions</th>
+        </tr>
+        {% for t, p, c in teachers %}
+        <tr>
+            <td>{{ t.teacher_id }}</td>
+            <td>{{ p.first_name }} {{ p.last_name }}</td>
+            <td>{{ c.course_name }}</td>
+            <td>{{ t.position_type }}</td>
+            <td>{{ t.start_date }}</td>
+            <td>{{ t.end_date }}</td>
+            <td>
+                <form action="/teachers/{{ t.teacher_id }}/delete" method="post">
+                    <button type="submit">Delete</button>
+                </form>
+            </td>
+        </tr>
         {% endfor %}
-    </select>
+    </table>
+</div>
 
-    <label for="course_id">Course ID:</label>
-    <select name="course_id" required>
-        {% for c in courses %}
-        <option value="{{ c.course_id }}">{{ c.course_name }} (ID: {{ c.course_id }})</option>
-        {% endfor %}
-    </select>
+<div id="form-view" style="display: none;">
+    <h3>New Teacher Assignment</h3>
+    <form method="post">
+        <label for="person_id">Person:</label>
+        <select name="person_id" required>
+            {% for p in persons %}
+            <option value="{{ p.person_id }}">{{ p.first_name }} {{ p.last_name }} (ID: {{ p.person_id }})</option>
+            {% endfor %}
+        </select>
 
-    <select name="position_type">
-        <option value="FULL-TIME">FULL-TIME</option>
-        <option value="PART-TIME">PART-TIME</option>
-        <option value="VISITING">VISITING</option>
-    </select>
+        <label for="course_id">Course ID:</label>
+        <select name="course_id" required>
+            {% for c in courses %}
+            <option value="{{ c.course_id }}">{{ c.course_name }} (ID: {{ c.course_id }})</option>
+            {% endfor %}
+        </select>
 
-    <input name="start_date" type="date">
-    <input name="end_date" type="date">
+        <select name="position_type">
+            <option value="FULL-TIME">FULL-TIME</option>
+            <option value="PART-TIME">PART-TIME</option>
+            <option value="VISITING">VISITING</option>
+        </select>
 
-    <button type="submit">Add</button>
-</form>
+        <input name="start_date" type="date">
+        <input name="end_date" type="date">
 
-<table>
-    <tr>
-        <th>ID</th>
-        <th>Person</th>
-        <th>Course</th>
-        <th>Position Type</th>
-        <th>Start Date</th>
-        <th>End Date</th>
-        <th>Actions</th>
-    </tr>
-    {% for t, p, c in teachers %}
-    <tr>
-        <td>{{ t.teacher_id }}</td>
-        <td>{{ p.first_name }} {{ p.last_name }}</td>
-        <td>{{ c.course_name }}</td>
-        <td>{{ t.position_type }}</td>
-        <td>{{ t.start_date }}</td>
-        <td>{{ t.end_date }}</td>
-        <td>
-            <form action="/teachers/{{ t.teacher_id }}/delete" method="post">
-                <button type="submit">Delete</button>
-            </form>
-        </td>
-    </tr>
-    {% endfor %}
-</table>
+        <button type="submit">Add</button>
+        <button type="button" onclick="showList()">Cancel</button>
+    </form>
+</div>
+
+<script src="{{ url_for('static', filename='js/toggleViews.js') }}"></script>
 {% endblock %}

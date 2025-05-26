@@ -28,15 +28,25 @@ def get_persons():
     return render_template("persons.html", persons=persons)
 
 @app.route("/persons", methods=["POST"])
-def add_person():
-    p = Person(
-        first_name=request.form["first_name"],
-        last_name=request.form["last_name"],
-        id_number=request.form["id_number"],
-        dob=request.form["dob"],
-        personal_email=request.form["personal_email"]
-    )
-    db.session.add(p)
+def add_or_edit_person():
+    person_id = request.form.get("person_id")
+    if person_id:
+        person = Person.query.get(person_id)
+        if person:
+            person.first_name = request.form["first_name"]
+            person.last_name = request.form["last_name"]
+            person.id_number = request.form["id_number"]
+            person.dob = request.form["dob"]
+            person.personal_email = request.form.get("personal_email")
+    else:
+        person = Person(
+            first_name=request.form["first_name"],
+            last_name=request.form["last_name"],
+            id_number=request.form["id_number"],
+            dob=request.form["dob"],
+            personal_email=request.form.get("personal_email")
+        )
+        db.session.add(person)
     db.session.commit()
     return redirect(url_for("get_persons"))
 
