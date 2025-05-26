@@ -20,6 +20,104 @@
             color: #721c24;
             border: 1px solid #f5c6cb;
         }
+        /* Dark mode styles */
+        body.dark-mode {
+            background-color: #343a40; /* Dark background */
+            color: #f8f9fa; /* Light text */
+        }
+        .dark-mode .navbar, .dark-mode .card {
+            background-color: #454d55 !important; /* Slightly lighter dark for components */
+            color: #f8f9fa;
+        }
+        .dark-mode .table {
+            color: #f8f9fa;
+        }
+        .dark-mode .table-striped tbody tr:nth-of-type(odd) {
+            background-color: rgba(255, 255, 255, 0.05); /* Lighter stripe in dark mode */
+        }
+        .dark-mode .table-hover tbody tr:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+        .dark-mode .form-control, .dark-mode .form-select {
+            background-color: #5a6268;
+            color: #f8f9fa;
+            border-color: #6c757d;
+        }
+        .dark-mode .form-control::placeholder {
+            color: #ced4da;
+        }
+        .dark-mode a.nav-link {
+            color: #f8f9fa !important;
+        }
+        .dark-mode a.nav-link:hover {
+            color: #dee2e6 !important;
+        }
+        .dark-mode .btn-primary {
+            background-color: #007bff;
+            border-color: #007bff;
+        }
+        .dark-mode .btn-secondary {
+            background-color: #6c757d;
+            border-color: #6c757d;
+        }
+        .dark-mode .btn-info {
+            background-color: #17a2b8;
+            border-color: #17a2b8;
+        }
+        .dark-mode .btn-danger {
+            background-color: #dc3545;
+            border-color: #dc3545;
+        }
+        /* Style for the toggle switch */
+        .theme-switch {
+            display: flex;
+            align-items: center;
+            margin-left: auto; /* Pushes the switch to the right */
+        }
+        .theme-switch input[type="checkbox"] {
+            height: 0;
+            width: 0;
+            visibility: hidden;
+        }
+        .theme-switch label {
+            cursor: pointer;
+            text-indent: -9999px;
+            width: 50px;
+            height: 25px;
+            background: #ddd;
+            display: block;
+            border-radius: 100px;
+            position: relative;
+        }
+        .theme-switch label:after {
+            content: '';
+            position: absolute;
+            top: 2.5px;
+            left: 2.5px;
+            width: 20px;
+            height: 20px;
+            background: #fff;
+            border-radius: 90px;
+            transition: 0.3s;
+        }
+        .theme-switch input:checked + label {
+            background: #343a40;
+        }
+        .theme-switch input:checked + label:after {
+            left: calc(100% - 2.5px);
+            transform: translateX(-100%);
+        }
+        .theme-switch label:active:after {
+            width: 25px;
+        }
+        .theme-switch .icon {
+            margin-right: 10px;
+            font-size: 1.2em;
+            color: #6c757d;
+        }
+        .theme-switch input:checked + label + .icon {
+            color: #f8f9fa;
+        }
     </style>
 </head>
 <body>
@@ -47,6 +145,12 @@
                         <a class="nav-link" href="/students">Students</a>
                     </li>
                 </ul>
+                <div class="theme-switch">
+                    <i class="icon bi bi-sun-fill"></i>
+                    <input type="checkbox" id="darkModeToggle">
+                    <label for="darkModeToggle"></label>
+                    <i class="icon bi bi-moon-fill"></i>
+                </div>
             </div>
         </nav>
     </header>
@@ -65,5 +169,7 @@
         {% block content %}{% endblock %}
     </main>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <script src="{{ url_for('static', filename='js/darkmode.js') }}"></script>
 </body>
 </html>

@@ -1,4 +1,3 @@
-// edu-crud/app/static/js/toggleViews.js
 function showForm() {
     document.getElementById('list-view').style.display = 'none';
     document.getElementById('form-view').style.display = 'block';
