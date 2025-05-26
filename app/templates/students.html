@@ -24,7 +24,8 @@
             <td>{{ s.start_date }}</td>
             <td>{{ s.end_date }}</td>
             <td>
-                <form action="/students/{{ s.student_id }}/delete" method="post">
+                <button type="button" onclick="editStudent({{ s.student_id }}, {{ p.person_id }}, {{ c.course_id }}, '{{ s.position_type }}', '{{ s.start_date or '' }}', '{{ s.end_date or '' }}')">Edit</button>
+                <form action="/students/{{ s.student_id }}/delete" method="post" style="display:inline;">
                     <button type="submit">Delete</button>
                 </form>
             </td>
@@ -34,8 +35,9 @@
 </div>
 
 <div id="form-view" style="display: none; margin-top: 2rem;">
-    <h3>Add New Student Assignment</h3>
-    <form method="post">
+    <h3>Add/Edit Student Assignment</h3>
+    <form method="post" id="studentForm">
+        <input type="hidden" name="student_id" id="student_id">
         <label for="person_id">Person:</label><br>
         <select name="person_id" required>
             {% for p in persons %}

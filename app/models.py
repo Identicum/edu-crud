@@ -13,12 +13,16 @@ class Person(db.Model):
     personal_email = db.Column(db.String(100))
     org_email = db.Column(db.String(100))
     modification_time = db.Column(db.DateTime)
+    teachers = db.relationship('Teacher', backref='person', lazy=True, cascade="all, delete-orphan")
+    students = db.relationship('Student', backref='person', lazy=True, cascade="all, delete-orphan")
 
 class Course(db.Model):
     __tablename__ = 'course'
     course_id = db.Column(db.Integer, primary_key=True)
     course_name = db.Column(db.String(50), nullable=False)
     modification_time = db.Column(db.DateTime)
+    teachers_assigned = db.relationship('Teacher', backref='course', lazy=True, cascade="all, delete-orphan")
+    students_enrolled = db.relationship('Student', backref='course', lazy=True, cascade="all, delete-orphan")
 
 class Teacher(db.Model):
     __tablename__ = 'teacher'

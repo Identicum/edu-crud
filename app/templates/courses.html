@@ -1,23 +1,40 @@
 {% extends 'base.html' %}
 {% block content %}
 <h2>Courses</h2>
-<form method="post">
-    <input name="course_name" placeholder="Course Name" required>
-    <button type="submit">Add</button>
-</form>
 
-<table>
-    <tr><th>ID</th><th>Name</th><th>Actions</th></tr>
-    {% for c in courses %}
-    <tr>
-        <td>{{ c.course_id }}</td>
-        <td>{{ c.course_name }}</td>
-        <td>
-            <form action="/courses/{{ c.course_id }}/delete" method="post">
-                <button type="submit">Delete</button>
-            </form>
-        </td>
-    </tr>
-    {% endfor %}
-</table>
+<button onclick="showForm()">+ Add New Course</button>
+
+<div id="list-view">
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Actions</th>
+        </tr>
+        {% for c in courses %}
+        <tr>
+            <td>{{ c.course_id }}</td>
+            <td>{{ c.course_name }}</td>
+            <td>
+                <button type="button" onclick="editCourse({{ c.course_id }}, '{{ c.course_name }}')">Edit</button>
+                <form action="/courses/{{ c.course_id }}/delete" method="post" style="display:inline;">
+                    <button type="submit">Delete</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+
+<div id="form-view" style="display: none; margin-top: 20px;">
+    <h3>Add/Edit Course</h3>
+    <form method="post" id="courseForm">
+        <input type="hidden" name="course_id" id="course_id">
+        <input name="course_name" id="course_name" placeholder="Course Name" required>
+        <button type="submit">Submit</button>
+        <button type="button" onclick="showList()">Cancel</button>
+    </form>
+</div>
+
+<script src="{{ url_for('static', filename='js/toggleViews.js') }}"></script>
 {% endblock %}

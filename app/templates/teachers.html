@@ -24,7 +24,8 @@
             <td>{{ t.start_date }}</td>
             <td>{{ t.end_date }}</td>
             <td>
-                <form action="/teachers/{{ t.teacher_id }}/delete" method="post">
+                <button type="button" onclick="editTeacher({{ t.teacher_id }}, {{ p.person_id }}, {{ c.course_id }}, '{{ t.position_type }}', '{{ t.start_date or '' }}', '{{ t.end_date or '' }}')">Edit</button>
+                <form action="/teachers/{{ t.teacher_id }}/delete" method="post" style="display:inline;">
                     <button type="submit">Delete</button>
                 </form>
             </td>
@@ -34,8 +35,9 @@
 </div>
 
 <div id="form-view" style="display: none;">
-    <h3>New Teacher Assignment</h3>
-    <form method="post">
+    <h3>Add/Edit Teacher Assignment</h3>
+    <form method="post" id="teacherForm">
+        <input type="hidden" name="teacher_id" id="teacher_id">
         <label for="person_id">Person:</label>
         <select name="person_id" required>
             {% for p in persons %}
@@ -43,23 +45,26 @@
             {% endfor %}
         </select>
 
-        <label for="course_id">Course ID:</label>
+        <label for="course_id">Course:</label>
         <select name="course_id" required>
             {% for c in courses %}
             <option value="{{ c.course_id }}">{{ c.course_name }} (ID: {{ c.course_id }})</option>
             {% endfor %}
         </select>
 
+        <label for="position_type">Position Type:</label>
         <select name="position_type">
             <option value="FULL-TIME">FULL-TIME</option>
             <option value="PART-TIME">PART-TIME</option>
             <option value="VISITING">VISITING</option>
         </select>
 
+        <label for="start_date">Start Date:</label>
         <input name="start_date" type="date">
+        <label for="end_date">End Date:</label>
         <input name="end_date" type="date">
 
-        <button type="submit">Add</button>
+        <button type="submit">Submit</button>
         <button type="button" onclick="showList()">Cancel</button>
     </form>
 </div>
