@@ -11,7 +11,7 @@ services:
     environment:
       POSTGRES_PASSWORD: edu_postgres
     volumes:
-      - ./initdb/:/docker-entrypoint-initdb.d/:ro
+      - ./db/:/docker-entrypoint-initdb.d/:ro
 
   edu-crud:
     container_name: edu-crud
