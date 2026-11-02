@@ -6,7 +6,9 @@ on:
       - main
     paths:
     - 'app/**'
+    - 'db/**'
     - 'Dockerfile'
+    - 'init_db.sh'
     - 'requirements.txt'
   workflow_dispatch:
 
