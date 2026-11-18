@@ -10,6 +10,8 @@ on:
     - 'Dockerfile'
     - 'init_db.sh'
     - 'requirements.txt'
+  schedule:
+    - cron: '0 0 3 * *'
   workflow_dispatch:
 
 jobs:
